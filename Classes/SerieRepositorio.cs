@@ -8,32 +8,32 @@ namespace DIO.Series
         private List<Serie> listaSerie = new List<Serie>();
         public void Atualiza(int id, Serie entidade)
         {
-            throw new System.NotImplementedException();
+            this.listaSerie[id] = entidade;
         }
 
         public void Exclui(int id)
         {
-            throw new System.NotImplementedException();
+            this.listaSerie[id].Excluir();
         }
 
         public void Insere(Serie entidade)
         {
-            throw new System.NotImplementedException();
+            this.listaSerie.Add(entidade);
         }
 
         public List<Serie> Lista()
         {
-            throw new System.NotImplementedException();
+            return this.listaSerie;
         }
 
         public int ProximoId()
         {
-            throw new System.NotImplementedException();
+            return listaSerie.Count;
         }
 
         public Serie RetornaPorId(int id)
         {
-            throw new System.NotImplementedException();
+            return listaSerie[id];
         }
     }
 }
