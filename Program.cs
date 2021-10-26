@@ -21,13 +21,13 @@ namespace DIO.Series
                         InserirSerie();
                     break;
                     case '3':
-                        //ListarSeries();
+                        AtualizarSerie();
                     break;
                     case '4':
-                        //ListarSeries();
+                        ExcluirSerie();
                     break;
                     case '5':
-                        //ListarSeries();
+                        VisualizaSerie();
                     break;
                     case 'C':
                         Console.Clear();
@@ -40,21 +40,49 @@ namespace DIO.Series
             Console.WriteLine("Saindo...");
         }
 
+        private static void VisualizaSerie()
+        {
+             Console.WriteLine("Digite o ID do filme que deseja visualizar: ");
+            int id = int.Parse(Console.ReadLine());
+            Serie s = repositorio.RetornaPorId(id);
+            Console.WriteLine(s.ToString());
+        }
+
+        private static void ExcluirSerie()
+        {
+            Console.WriteLine("Digite o ID do filme que deseja excluir: ");
+            int id = int.Parse(Console.ReadLine());
+            repositorio.Exclui(id);
+        }
+
+        private static void AtualizarSerie()
+        {
+            Console.WriteLine("Digite o ID do filme que deseja atualizar: ");
+            int id = int.Parse(Console.ReadLine());
+            QuestionarioSerie(out sbyte opcao, out string titulo, out string descricao, out int ano);
+            repositorio.Atualiza(id, new Serie(id, (Genero)opcao, titulo, descricao, ano));
+        }
+
         private static void InserirSerie()
         {
             Console.WriteLine("Inserir nova série:");
             Console.WriteLine("");
+            QuestionarioSerie(out sbyte opcao, out string titulo, out string descricao, out int ano);
+            repositorio.Insere(new Serie(repositorio.ProximoId(), (Genero)opcao, titulo, descricao, ano));
+        }
+
+        private static void QuestionarioSerie(out sbyte opcao, out string titulo, out string descricao, out int ano)
+        {
             foreach (var item in Enum.GetValues(typeof(Genero)))
                 Console.WriteLine($"{item.GetHashCode()} - {item.ToString()}");
             Console.WriteLine("Digite o código do Gênero: ");
-            sbyte opcao = sbyte.Parse(Console.ReadLine());
+            opcao = sbyte.Parse(Console.ReadLine());
             Console.WriteLine("Digite o Título: ");
-            string titulo = Console.ReadLine();
+            titulo = Console.ReadLine();
             Console.WriteLine("Digite a Descrição: ");
-            string descricao = Console.ReadLine();
+            descricao = Console.ReadLine();
             Console.WriteLine("Digite o Ano de Lançamento: ");
-            int ano = int.Parse(Console.ReadLine());
-            repositorio.Insere(new Serie(repositorio.ProximoId(), (Genero)opcao, titulo, descricao, ano));
+            ano = int.Parse(Console.ReadLine());
         }
 
         private static void ListarSeries()
@@ -65,7 +93,7 @@ namespace DIO.Series
                 return;
             }
             foreach (Serie item in lista)
-                Console.WriteLine("#ID {0} - {1}", item.retornaId(), item.retornaTitulo());
+                Console.WriteLine("#ID {0} - {1} {2}", item.retornaId(), item.retornaTitulo(), item.retornaExcluido() ? "*Excluído*" : "");
             Console.ReadLine();
         }
 
